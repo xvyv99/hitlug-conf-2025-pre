@@ -3,14 +3,16 @@
 #show: dewdrop-theme.with(
   aspect-ratio: "16-9",
   footer: self => self.info.title,
-  navigation: "none",
+  navigation: none,
   config-info(
     title: [MLIR: AI 编译栈的积木],
     subtitle: [打造可复用的 AI 基础设施],
     author: [xvyv99],
     date: [2025-10-25],
     institution: [HITLUG],
+    slide-level: 1,
   ),
+  config-common(new-section-slide-fn: new-section-slide),
   primary: rgb("#005476"),
 )
 
@@ -25,11 +27,14 @@
 
 #set heading(numbering: numbly("{1}.", default: "1.1"))
 
-#title-slide()
+#title-slide-patched()
 
-#outline-slide()
+#outline-slide-patched()
 
 #include "sections/tutorial.typ"
+#include "sections/llvm-mlir.typ"
+#include "sections/example.typ"
+#include "sections/practice-future.typ"
 
 #focus-slide[
   #set text(size: 35pt)

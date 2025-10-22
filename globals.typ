@@ -13,3 +13,5 @@
 	corner-radius: 5pt,
 	..args,
 )
+
+#import "./patch.typ": outline-slide-patched, title-slide-patched, new-section-slide
