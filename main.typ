@@ -1,0 +1,37 @@
+#import "./globals.typ": *
+
+#show: dewdrop-theme.with(
+  aspect-ratio: "16-9",
+  footer: self => self.info.title,
+  navigation: "none",
+  config-info(
+    title: [MLIR: AI 编译栈的积木],
+    subtitle: [打造可复用的 AI 基础设施],
+    author: [xvyv99],
+    date: [2025-10-25],
+    institution: [HITLUG],
+  ),
+  primary: rgb("#005476"),
+)
+
+#set text(
+  font: ("Palatino", "STFangsong"), 
+  lang: "zh",
+  weight: "medium",
+)
+
+#show: show-cn-fakebold
+#show emph: text.with(font: ("Palatino", "Kaiti SC"))
+
+#set heading(numbering: numbly("{1}.", default: "1.1"))
+
+#title-slide()
+
+#outline-slide()
+
+#include "sections/tutorial.typ"
+
+#focus-slide[
+  #set text(size: 35pt)
+  感谢聆听
+]
