@@ -5,7 +5,7 @@
 == LLVM 的革命: 解绑编译器
 
 #grid(
-  columns: (1fr, 1fr),
+  columns: (0.8fr, 1fr),
   gutter: 2em,
   [
     *前 LLVM 时代的问题*
@@ -31,11 +31,39 @@
     - *完备的* 独立表示
     - 作为前后端间的单一桥梁
     
-    #v(0.5em)
-    
     #text(fill: rgb(0, 100, 0))[
       $->$ 完全解绑编译器前后端
     ]
+
+    #let v_x = 0.9;
+    #let v_y = 0.8;
+
+    #set text(size: 14pt)
+    #diagram(
+
+      node-stroke: 1pt,
+      edge-stroke: 1.5pt,
+      spacing: (3em, 2em),
+      
+      node((0, 0), [C/C++ (Clang)], corner-radius: 5pt, fill: rgb("#e3f2fd")),
+      node((0, v_y), [Fortran (Flang)], corner-radius: 5pt, fill: rgb("#e3f2fd")),
+      node((0, 2*v_y), [Haskell (GHC)], corner-radius: 5pt, fill: rgb("#e3f2fd")),
+      
+      node((v_x, v_y), [LLVM IR], corner-radius: 5pt, fill: rgb("#fff3e0")),
+      
+      node((2*v_x, 0), [x86_64], corner-radius: 5pt, fill: rgb("#e8f5e9")),
+      node((2*v_x, v_y), [ARM], corner-radius: 5pt, fill: rgb("#e8f5e9")),
+      node((2*v_x, 2*v_y), [RISC-V], corner-radius: 5pt, fill: rgb("#e8f5e9")),
+
+      edge((0, 0), (v_x, v_y), "->"),
+      edge((0, v_y), (v_x, v_y), "->"),
+      edge((0, 2*v_y), (v_x, v_y), "->"),
+
+      edge((v_x, v_y), (2*v_x, 0), "->"),
+      edge((v_x, v_y), (2*v_x, v_y), "->"),
+      edge((v_x, v_y), (2*v_x, 2*v_y), "->"),
+    )
+  
   ]
 )
 
@@ -63,7 +91,7 @@
       
       *UNIX 哲学*: 简单工具 + 文本管道
       
-      ```bash
+      ```sh
       cat <file> | cut -f2 | sort | uniq -c
       ```
       
@@ -129,26 +157,22 @@
       - 对质量提升至关重要
       - 兼容性保证较弱, 允许不兼容的变动
       
-
-    ],[
       *真正的使用场景:*
       
-      作为不同 *软件模块* 间的表示
-
-      #v(1em)
+      > 作为不同 *软件模块* 间的表示
 
       #text(weight: "bold", fill: rgb(200, 0, 0))[
         不适合的使用场景:
       ]
       
-      作为程序的 *传送格式* 给硬件驱动
-      
+      > 作为程序的 *传送格式* 给硬件驱动
 
-      
-      #v(1em)
-      
+    ],[
       *教训: SPIR $->$ SPIR-V*
+
+      SPIR 最初基于固定版本的 LLVM IR, 通过 intrinsic 和 metadata 扩展来支持 OpenCL. 
       
+      但这种方案在兼容性和硬件集成方面问题频发, 迫使 Khronos Group 重新设计了独立的 SPIR-V 格式, 专门为 GPU 传输和跨版本兼容性优化.
     ]
   )
 ]
@@ -156,18 +180,44 @@
 == AI 时代的挑战
 
 #slide[
-=== 硬件多样性爆炸
+  *场景：一行 PyTorch 代码的旅程*
 
-]
+  ```python
+  output = model(input)  # 看起来很简单
+  ```
 
+  但它可能运行在: CPU, GPU, TPU, NPU, 以及各种定制芯片...
 
-#slide[
-=== 信息丢失问题
+  #v(1em)
 
-]
-
-
-#slide[
-=== 碎片化的编译生态
-
+  #grid(
+    columns: (1.2fr, 1fr, 1fr),
+    gutter: 1.5em,
+    [
+      *硬件多样性爆炸*
+      - LLVM IR 设计于 CPU 时代
+      - AI 需要张量操作和并行计算
+      - 每种硬件都有独特特性
+      
+      #text(fill: rgb(200, 0, 0))[
+        $->$  抽象层次太低
+      ]
+    ],[
+      *信息丢失问题*
+      // TODO: 修改此处例子使其更贴切
+      降级到 LLVM IR 后变成几千行指令, 编译器看不出这是矩阵乘法
+      
+      #text(fill: rgb(200, 0, 0))[
+        $->$ 错失优化机会
+      ]
+    ],[
+      *编译生态碎片化*
+      - 每个框架重复造轮子
+      - 硬件厂商多重适配
+      
+      #text(fill: rgb(200, 0, 0))[
+        $->$  巨大重复投入
+      ]
+    ]
+  )
 ]

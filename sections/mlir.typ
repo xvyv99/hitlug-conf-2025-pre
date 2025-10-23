@@ -38,13 +38,10 @@
 
 == MLIR 是什么？
 
-#v(1em)
-
 #grid(
   columns: (1fr, 1fr),
-  gutter: 2em,
   [
-    #align(center)[#image("../assets/mlir-identity-03.svg", height: 40%)]
+    #align(center)[#image("../assets/mlir-identity-03.svg", height: 20%)]
 
     #v(1em)
     #text(size: 35pt)[
@@ -54,13 +51,12 @@
 
     #pinit-highlight-block-from((1, 2), (1, 2), height: 2.5em, pos: bottom, fill: rgb(0, 180, 255))[
       Multi-Level 
-      #strike(offset: -5pt, stroke: 1.5pt)[Machine Learning]
+      #strike(offset: -5pt, stroke: 1.5pt)[Machine Learning]#footnote("MLIR stands for one of “Multi-Level IR” or “Multi-dimensional Loop IR” or “Machine Learning IR” or “Mid Level IR”, we prefer the first.")
     ]
 
     #pinit-highlight-block-from((3, 4), (3, 4), height: 2.0em, pos: top, fill: rgb(150, 90, 170))[
       Intermediate Representation
     ]
-    
     #v(1em)
 
   ],[
@@ -72,11 +68,11 @@
     ]
 
     // TODO: 这里要补充说明 MLIR 的定位和作用
-    MLIR 是一个灵活的编译器框架, 可以让不同领域的编译器能在同一套中间表示和优化框架上协作, 从而更快且更容易地构建新的编译器.
-
+    MLIR 是一个编译器框架, 可以让不同领域的编译器能在同一套中间表示和优化框架上协作, 从而更快更容易地构建新的编译器.
+    
     虽然 MLIR 最初是用于 AI 相关场景, 但其有更广泛的应用场景:
-        - 编译器: ClangIR, Polygeist
-    - 量子计算: quantum Dialect
+    - 编译器: ClangIR, Polygeist
+    - 量子计算: quantum Dialect, QIR
     - ...
 
   ]
@@ -98,9 +94,9 @@
     #v(1em)
     
     在 MLIR 中: 
-    - *Operation* 不再是最基础的
-    - 粒度进一步细化到：
-      - *Types*, *Values*, *Attributes*, *Regions* , *Interfaces*
+    - *Operation* 不再是最基础的, 其粒度进一步细化到:
+      
+      > *Types*, *Values*, *Attributes*, *Regions* , *Interfaces*
   ],[
 
     ` pin1 %result  pin2 = pin3  arith.addi  pin4 %a, %b pin5 : pin6  i32 pin7 `
@@ -145,8 +141,8 @@
         hoistInvariantCode(op);
       } // ...每种循环都要写一遍
       ```
-      
-      $->$ 每种循环都要单独处理
+
+      $->$ 每种循环都要单独处理: `scf::ForOp`, `scf::ParallelOp`, `affine::AffineForOp`, ...
     ],[
       *MLIR 方式: Interface*
       
@@ -172,33 +168,33 @@
   )
 ]
 
-== Dialect
+== Dialect: 不同层级概念的建模
 
 // TODO: 加个副标题
 // TODO: 加点相关 Dialect 里面的 op 示例
 
-#let dialect_hierarchy_image = image("../assets/codegen-dialect-hierarchy.svg", height: 87%)
+#slide[
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 1em,
   [
-    *什么是 Dialect?*
-    
-    一组逻辑相关的集合：
-    - *Operations* (操作), *Types* (类型), *Attributes* (属性)
-  
-    #v(1em)
-    
-    *为什么需要 Dialect?*
+    *什么是 Dialect?*\
+    基本可以理解为一个*命名空间*.在这个命名空间中, 我们可以定义一系列互补协作的操作, 及其所需的类型#footnote[虽然类型一般已经在 Builtin Dialect 中定义了]和属性.
 
+    比如对于一个内存操作相关的 Dialect, 可能会包含:
+    - `LoadOp`/`StoreOp` (内存加载/存储)
+    - `AllocaOp`/`DeallocOp` (内存分配/释放)
+    - `MemRefType` (内存引用类型)
+
+  ],[
+    *为什么需要 Dialect?* \
     _水平维度上解耦_: 完整 IR $->$ *多个局部 IR*
     - 每个 Dialect 针对特定领域
     - *按需组合*, 不再全盘接收
     - 去中心化
-    
-  ],[
-    *关键特性:*
+
+    而 Dialect 层级划分:
     - 高层: *完整* (complete), 准确描述边界
     - 中层: *部分* (partial), 可混用可组合
     - 底层: *受限* (constrained), 对接外部 IR
@@ -206,8 +202,12 @@
   ]
 )
 
+]
+
 // NOTE: Dialect 比较类似于 RISC-V 中模块化的拓展 
 // NOTE: Dialect 相较于库来说, 更像模板一些 
+
+#let dialect_hierarchy_image = image("../assets/codegen-dialect-hierarchy.svg", height: 87%)
 
 #slide[
   
@@ -218,15 +218,15 @@
       Dialects 生态一览
       
       *高层 Dialect* (描述模型)
-      - _tf_ / _tflite_: TensorFlow
-      - _mhlo_: XLA HLO
-      - _torch_: PyTorch
-      - _tosa_: Tensor Operator Set
+      - `tf` / `tflite`: TensorFlow
+      - `mhlo`: XLA HLO
+      - `torch`: PyTorch
+      - `tosa`: Tensor Operator Set
 
       *中层 Dialect*
-      - _linalg_: 线性代数抽象
-      - _tensor_: 张量操作
-      - _memref_: Buffer 操作
+      - `linalg`: 线性代数抽象
+      - `tensor`: 张量操作
+      - `memref`: Buffer 操作
     ],[
       #dialect_hierarchy_image
     ]
@@ -240,14 +240,14 @@
     gutter: 2em,
     [
       *底层 Dialect*
-      - _arith_ / _math_: 整数/浮点数计算
-      - _scf_: 结构化控制流 (for/if)
-      - _cf_: 基础块和控制流
-      - _vector_: 向量计算
+      - `arith` / `math`: 整数/浮点数计算
+      - `scf`: 结构化控制流 (for/if)
+      - `cf`: 基础块和控制流
+      - `vector`: 向量计算
       
       *边界 Dialect*
-      - _llvm_: 对接 LLVM IR
-      - _spirv_: 对接 SPIR-V
+      - `llvm`: 对接 LLVM IR
+      - `spirv`: 对接 SPIR-V
     ],[
       #dialect_hierarchy_image
     ]
@@ -326,7 +326,7 @@
     
     - 天然 *中心化*
     - 唯一完备的中间表示
-    - 单一的、不可分割的 IR
+    - 单一的, 不可分割的 IR
     - 偏好 *统一* 的编译流程
 
     
@@ -360,11 +360,8 @@
     inset: 1em,
     radius: 5pt,
     [
-      #text(size: 16pt)[
-        技术栈越往上越多样化（用户需求各异）
-        
-        技术栈越往下越需要模块化和定制化（硬件多样性）
-      ]
+      技术栈越往上越多样化(用户需求各异)\
+      技术栈越往下越需要模块化和定制化(硬件多样性)
     ]
   )
 ]
