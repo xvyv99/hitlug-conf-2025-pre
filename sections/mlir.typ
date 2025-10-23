@@ -32,32 +32,9 @@
   )[#text]  
 }
 
-= LLVM: 编译器的解绑与模块化
-
-== LLVM 的革命: 解绑编译器
-
-== LLVM 的局限: 中心化的代价
-
-== AI 时代的挑战
-
-#slide[
-=== 硬件多样性爆炸
-
-]
-
-
-#slide[
-=== 信息丢失问题
-
-]
-
-
-#slide[
-=== 碎片化的编译生态
-
-]
-
 = MLIR: 编译器基础设施化
+
+// TODO: 这个副标题也得改
 
 == MLIR 是什么？
 
@@ -87,17 +64,15 @@
     #v(1em)
 
   ],[
-    #text(size: 20pt, weight: "bold", fill: rgb(200, 0, 0))[
+    #text(weight: "bold", fill: rgb(200, 0, 0))[
       并非"又一个 IR"
     ]
-    
-    #text(size: 20pt, weight: "bold", fill: rgb(0, 100, 200))[
+    #text(weight: "bold", fill: rgb(0, 100, 200))[
       而是"构建 IR 的框架"
     ]
 
     // TODO: 这里要补充说明 MLIR 的定位和作用
-    
-    #v(1em)
+    MLIR 是一个灵活的编译器框架, 可以让不同领域的编译器能在同一套中间表示和优化框架上协作, 从而更快且更容易地构建新的编译器.
 
     虽然 MLIR 最初是用于 AI 相关场景, 但其有更广泛的应用场景:
         - 编译器: ClangIR, Polygeist

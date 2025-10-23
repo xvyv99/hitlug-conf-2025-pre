@@ -39,7 +39,8 @@
 #outline-slide-patched()
 
 #include "sections/tutorial.typ"
-#include "sections/llvm-mlir.typ"
+#include "sections/llvm.typ"
+#include "sections/mlir.typ"
 #include "sections/example.typ"
 #include "sections/practice-future.typ"
 
