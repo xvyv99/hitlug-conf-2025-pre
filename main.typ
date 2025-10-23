@@ -39,7 +39,7 @@
 #include "sections/tutorial.typ"
 #include "sections/llvm.typ"
 #include "sections/mlir.typ"
-#include "sections/example.typ"
+// #include "sections/example.typ"
 #include "sections/practice-future.typ"
 
 // TODO: Reference slide
