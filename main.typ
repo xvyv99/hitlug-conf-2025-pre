@@ -27,8 +27,6 @@
 
 #set heading(numbering: numbly("{1}.", default: "1.1"))
 
-#show raw: box.with(fill: luma(240), inset: 8pt, radius: 5pt)
-
 #show raw: it => {
   show regex(" pin\d "): it => pin(eval(it.text.slice(4)))
   it
@@ -43,6 +41,8 @@
 #include "sections/mlir.typ"
 #include "sections/example.typ"
 #include "sections/practice-future.typ"
+
+// TODO: Reference slide
 
 #focus-slide[
   #set text(size: 35pt)
