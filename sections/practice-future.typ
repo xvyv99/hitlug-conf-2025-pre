@@ -84,8 +84,8 @@ DSL: Domain-Specific Language 领域特定语言
           
           node((0, 0), [Triton DSL], corner-radius: 5pt, fill: rgb("#fff3e0")),
           edge((0, 0), (0, 1), "->", [转换]),
-          node((0, 1), [MLIR `linalg`], corner-radius: 5pt, fill: rgb("#e1f5fe")),
-          edge((0, 1), (0, 2), "->", [下降+编译]),
+          node((0, 1), [MLIR\ `linalg` Dialect], corner-radius: 5pt, fill: rgb("#e1f5fe")),
+          edge((0, 1), (0, 2), "->", [下降]),
           node((0, 2), [MLU指令], corner-radius: 5pt, fill: rgb("#e8f5e9")),
         )
       ]
@@ -107,8 +107,8 @@ DSL: Domain-Specific Language 领域特定语言
 
           node((0, 0), [ONNX 模型], corner-radius: 5pt, fill: rgb("#ffcdd2")),
           edge("->", [导入]),
-          node((0, 0.8), [MLIR 中间层\ TPU Dialect], corner-radius: 5pt, fill: rgb("#e1f5fe")),
-          edge("->", [优化]),
+          node((0, 0.8), [MLIR \ TPU Dialect], corner-radius: 5pt, fill: rgb("#e1f5fe")),
+          edge("->", [下降]),
           node((0, 1.6), [TPU 指令], corner-radius: 5pt, fill: rgb("#e8f5e9")),
         )
       ]
