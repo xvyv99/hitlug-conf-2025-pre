@@ -121,6 +121,7 @@ DSL: Domain-Specific Language 领域特定语言
 
 造 Dialect 就行, 而不用重写整个编译栈:
 - Tawa: Automatic Warp Specialization for Modern GPUs with Asynchronous References
+- SyFER-MLIR: Integrating Fully Homomorphic Encryption Into the MLIR Compiler Framework
 
 // TODO: 添加例子
 
