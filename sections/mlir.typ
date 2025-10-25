@@ -84,21 +84,15 @@
 // TODO: 内容也得改
 
 #grid(
-  columns: (1fr, 1fr),
+  columns: (1.1fr, 1fr),
   gutter: 2em,
   [
-    在 LLVM IR 中：
-    - *Instruction* 是最基础的单位
-    - 指令 $->$ 基本块 $->$ 函数 $->$ 模块
-    
-    #v(1em)
-    
-    在 MLIR 中: 
-    - *Operation* 不再是最基础的, 其粒度进一步细化到:
-      
-      > *Types*, *Values*, *Attributes*, *Regions* , *Interfaces*
+    *Operation (Op)* 是语义的基本单位
+    - 指令, 函数, 模块等全部被建模成 Op
+    - 没有固定的 Op 集合, 鼓励按领域自定义
+    - Op 接收/产生的 SSA 值分别称为操作数与结果, 所有值都带类型 (类似 LLVM IR)
   ],[
-
+    #v(3em)
     ` pin1 %result  pin2 = pin3  arith.addi  pin4 %a, %b pin5 : pin6  i32 pin7 `
 
     #pinit-bottom((1, 2))[返回值]
@@ -108,11 +102,7 @@
 
     #v(3em)
 
-    *Operation 的灵活性:*
-    - 任意数量的输入/输出
-    - 任意数量的 attributes
-    - 包含 regions（嵌套关系）
-    - 实现 interfaces（解耦）
+    #image("../assets/op.png")
   ]
 )
 
@@ -170,9 +160,6 @@
 
 == Dialect: 不同层级概念的建模
 
-// TODO: 加个副标题
-// TODO: 加点相关 Dialect 里面的 op 示例
-
 #slide[
 
 #grid(
@@ -191,15 +178,13 @@
     *为什么需要 Dialect?* \
     _水平维度上解耦_: 完整 IR $->$ *多个局部 IR*
     - 每个 Dialect 针对特定领域
-    - *按需组合*, 不再全盘接收
-    - 去中心化
+    - 使用时 *按需组合*, 不再全盘接收
+    - 去中心化, 灵活扩展
 
-    // TODO: 截止 完整, 部分, 受限
-
-    而 Dialect 层级划分:
-    - 高层: *完整* (complete), 准确描述边界
-    - 中层: *部分* (partial), 可混用可组合
-    - 底层: *受限* (constrained), 对接外部 IR
+    _垂直维度上解耦_: 对不同*层级*的概念建模
+    - *高层*: 声明式(做什么)
+    - *中层*: 结构化(怎么做)
+    - *低层*: 命令式(具体指令)
   ],[
   ]
 )
@@ -256,35 +241,40 @@
   )
 ]
 
+#slide[
+  #align(center)[#image("../assets/mlir_dialects.png", height: 89%)]
+]
+
 // NOTE: 生态仍在扩张演进, 但组织结构已相对稳定
 
 == Lowering: 渐进式递降
 #slide[
 
 #grid(
-  columns: (0.8fr, 1fr, 0.1fr),
+  columns: (1fr, 0.1fr),
   gutter: 2em,
-  [
+  columns[
+    即以较小的步幅, 依次经过多个抽象级别, 从较高级别的表示降低到最低级别
+
     _为什么需要渐进式?_
+
+    // TODO: 这里的内容也得改
     
-    *领域专用语言的特点：*
+    这对于领域特定编译器(Domain-specific compiler)尤其重要, 因为:
+
+    *领域特定语言的特点:*
     - 高度抽象的声明式语言
     - 只描述 *做什么*，不说 *怎么做*
     
-    *目标硬件的要求：*
+    *目标硬件的要求:*
     - 具体的命令式机器指令
     - 精确控制每个操作
     
     #text(fill: rgb(200, 0, 0))[
       $->$ 抽象差距巨大, 一步跨越太难!
     ]
-  ],[
-    _垂直维度上解耦_: 对不同*层级*的概念建模
-    - *高层*: 声明式(做什么)
-    - *中层*: 结构化(怎么做)
-    - *低层*: 命令式(具体指令)
 
-    *优势: *
+    *优势:*
     - 分离各层次关注的问题
     - 每层都可以独立优化
     - 信息逐级保留
@@ -355,15 +345,3 @@
     ]
   ]
 )
-
-#align(center)[
-  #box(
-    fill: rgb(230, 240, 255),
-    inset: 1em,
-    radius: 5pt,
-    [
-      技术栈越往上越多样化(用户需求各异)\
-      技术栈越往下越需要模块化和定制化(硬件多样性)
-    ]
-  )
-]

@@ -5,8 +5,8 @@
   footer: self => self.info.title,
   navigation: none,
   config-info(
-    title: [MLIR: AI 编译栈的积木],
-    subtitle: [打造可复用的 AI 基础设施],
+    title: [MLIR: 通用编译栈的积木],
+    // subtitle: [打造可复用的 AI 基础设施],
     author: [xvyv99],
     date: [2025-10-25],
     institution: [HITLUG],
