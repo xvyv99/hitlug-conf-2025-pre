@@ -126,38 +126,30 @@ DSL: Domain-Specific Language 领域特定语言
 
 = MLIR 未来与展望
 
-== 太自由的代价
+== 太自由的代价: 去中心化的一体两面
 
 #slide[
   // TODO: 这部分得修改, 看起来怪怪的
 
-  *去中心化的一体两面*
   #grid(
     columns: (1fr, 1fr),
     gutter: 2em,
     [
       
-      #text(fill: rgb("#2e7d32"), weight: "bold")[理想面：技术民主化]
+      #text(fill: rgb("#2e7d32"), weight: "bold")[技术民主化]
       - 任何团队都能定义自己的 Dialect
       - 降低创新门槛, 快速验证想法
       - 避免单一巨头垄断技术路线
       - 促进社区多元化发展
 
     ],[
-      #text(fill: rgb("#d32f2f"), weight: "bold")[现实面：协调失灵]
+      #text(fill: rgb("#d32f2f"), weight: "bold")[协调失灵]
       - Dialect 数量两年内翻了五倍
       - 缺乏统一的兼容性测试
       - 没有权威的参考实现栈
       - 转换工具各自为政, 互不相通
     ]
   )
-
-  #align(center)[
-    #text(fill: rgb("#1565c0"), size: 0.9em)[
-      _"MLIR 成功地让每家公司都可以写编译器, \ 
-      但也让每家公司都在重复造编译器"_
-    ]
-  ]
 ]
 
 == 未来展望: 标准化与协作
@@ -172,12 +164,11 @@ DSL: Domain-Specific Language 领域特定语言
     [
       *LLVM 社区的治理重构*
       
-      + *Area Governance*：将 MLIR 拆分为 Core 和 Dialects 两个治理域
-      + *技术边界清晰化*：核心 IR 与应用扩展分离管理
-      + *RFC 驱动的演进*：重大变更需要社区共识
-      + *Maintainer 责任制*：明确各模块的技术负责人
-      
-      #text(fill: rgb("#1976d2"), weight: "bold")[目标]：防止恶化，但不能自动创造统一
+      + *Area Governance*: 将 MLIR 拆分为 Core 和 Dialects 两个治理域
+      + *技术边界清晰化*: 核心 IR 与应用扩展分离管理
+      + *RFC 驱动的演进*: 重大变更需要社区共识
+
+      #text(fill: rgb("#1976d2"), weight: "bold")[目标]: 防止恶化，但不能自动创造统一
     ],[
       *可能的解决路径*
       
