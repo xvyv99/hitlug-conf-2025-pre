@@ -242,7 +242,7 @@
 ]
 
 #slide[
-  #align(center)[#image("../assets/mlir_dialects.png", height: 89%)]
+  #align(center)[#image("../assets/mlir_dialects.png", height: 88%)]
 ]
 
 // NOTE: 生态仍在扩张演进, 但组织结构已相对稳定

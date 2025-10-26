@@ -24,8 +24,11 @@
 
 #show: show-cn-fakebold
 #show emph: text.with(font: ("Palatino", "Kaiti SC"))
+#show link: underline
 
 #set heading(numbering: numbly("{1}.", default: "1.1"))
+
+#let bib = bibliography("refs.bib", full: true)
 
 #show raw: it => {
   show regex(" pin\d "): it => pin(eval(it.text.slice(4)))
@@ -42,7 +45,13 @@
 // #include "sections/example.typ"
 #include "sections/practice-future.typ"
 
-// TODO: Reference slide
+#slide[
+
+#set text(size: 18pt)
+
+#bib
+
+]
 
 #focus-slide[
   #set text(size: 35pt)

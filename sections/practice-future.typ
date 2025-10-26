@@ -159,30 +159,6 @@ DSL: Domain-Specific Language 领域特定语言
   
   // TODO: 这部分得修改, 看起来怪怪的
 
-  #grid(
-    columns: (1fr, 1fr),
-    gutter: 2em,
-    [
-      *LLVM 社区的治理重构*
-      
-      + *Area Governance*: 将 MLIR 拆分为 Core 和 Dialects 两个治理域
-      + *技术边界清晰化*: 核心 IR 与应用扩展分离管理
-      + *RFC 驱动的演进*: 重大变更需要社区共识
-
-      #text(fill: rgb("#1976d2"), weight: "bold")[目标]: 防止恶化，但不能自动创造统一
-    ],[
-      *可能的解决路径*
-      
-      #text(fill: rgb("#388e3c"), weight: "bold")[1. 分层标准化策略]
-      - 底层：MLIR Core 保持稳定和中立
-      - 中层：建立若干个 Reference Stack 
-      - 上层：允许差异化和创新
-      
-      #text(fill: rgb("#f57c00"), weight: "bold")[2. 激励对齐机制]
-      - 建立跨公司的技术利益共同体
-      - 通过标准认证降低集成成本
-      - 让协作成为商业上的理性选择
-    ]
-  )
+  #strike(offset: -5pt, stroke: 1.5pt)[这部分实际上没怎么严谨地查资料, 只是参考了博客 #link("https://www.cnblogs.com/wujianming-110117/p/18845720")[MLIR: 一场还没来得及成功的统一梦], 但后来其中很多的内容我都并没有查到出处, 为防止有误, 故删掉此节.]
 ]
 
